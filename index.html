@@ -1,88 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DOS-in-a-PDF</title>
+
 <style>
-  :root { color-scheme: dark; }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; min-height: 100vh; background: #000; color: #d8d8d8;
-    font-family: "Courier New", ui-monospace, monospace;
-    display: flex; align-items: center; justify-content: center; padding: 24px;
-  }
-  .card {
-    width: 100%; max-width: 640px; border: 1px solid #2a2a2a; border-radius: 8px;
-    padding: 28px 30px; background: #0a0a0a;
-  }
-  h1 { margin: 0 0 4px; font-size: 30px; letter-spacing: 1px; color: #fff; }
-  .tag { margin: 0 0 22px; color: #8a8a8a; font-size: 14px; }
-  p { line-height: 1.55; font-size: 14px; }
-  .banner { padding: 12px 14px; border-radius: 6px; margin: 18px 0; font-size: 14px; }
-  .ok  { background: #07210f; border: 1px solid #1c5e30; color: #7ee29a; }
-  .bad { background: #2a0a0a; border: 1px solid #7a2020; color: #ff9b9b; }
-  a.btn {
-    display: inline-block; margin: 6px 10px 6px 0; padding: 11px 20px;
-    background: #1c5e30; color: #eafff0; text-decoration: none; border-radius: 6px;
-    font-weight: bold; font-size: 15px;
-  }
-  a.btn.disabled { background: #222; color: #777; pointer-events: none; }
-  a.link { color: #6fb3ff; }
-  .muted { color: #777; font-size: 12px; margin-top: 24px; }
-  kbd { background:#1a1a1a; border:1px solid #333; border-radius:3px; padding:0 5px; }
+body {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #111;
+    color: #ddd;
+    font-family: monospace;
+    line-height: 1.6;
+}
+
+a {
+    color: #8ab4f8;
+}
+
+.button {
+    display: inline-block;
+    padding: 8px 14px;
+    margin-right: 8px;
+    border: 1px solid #444;
+    text-decoration: none;
+    color: #ddd;
+}
+
+.button:hover {
+    background: #222;
+}
+
+.notice {
+    padding: 10px;
+    border: 1px solid #444;
+    margin: 16px 0;
+}
 </style>
 </head>
 <body>
-  <main class="card">
-    <h1>DOS-in-a-PDF</h1>
-    <p class="tag">FreeDOS, emulated end to end, running inside a single PDF file.</p>
 
-    <p>An Intel 8086, its BIOS, and a FreeDOS floppy are emulated in JavaScript
-    that executes inside the PDF viewer&rsquo;s own scripting engine &mdash; no server,
-    no plugins, no WebAssembly. Inspired by
-    <a class="link" href="https://github.com/ading2210/linuxpdf">Linux&nbsp;in&nbsp;a&nbsp;PDF</a>.</p>
+<h1>DOS-in-a-PDF</h1>
 
-    <div id="banner" class="banner">Checking your browser&hellip;</div>
+<p>
+FreeDOS running inside a PDF
+</p>
 
-    <p>
-      <a id="open" class="btn" href="/DOSPDF/out/DOS-in-a.pdf">Open the PDF &rarr;</a>
-      <a class="btn" style="background:#222;color:#cfcfcf"
-         href="https://github.com/crabby605/dospdf">Source on GitHub</a>
-    </p>
+<p>
+I saw Linux running in a PDF and wondered if I could get x86 DOS running too.
+A few weeks later, here we are. and it's very funny DOS running in a PDf,
+</p>
 
-    <p style="font-size:13px;color:#9a9a9a">
-      Once it boots to <kbd>A:\&gt;</kbd>, type <kbd>dir</kbd>, <kbd>tree</kbd>,
-      <kbd>pong</kbd>, or <kbd>alleycat</kbd> &mdash; use the on-screen keyboard
-      if typing in the box doesn&rsquo;t register.
-    </p>
+<p>
+It emulates an 8086, BIOS and FreeDOS floppy disk entirely inside PDF JavaScript.
+No server, no installs, just a PDF.
+</p>
 
-    <p class="muted">
-      Made by Vihaan P. &middot;
-      <a class="link" href="https://github.com/crabby605/dospdf">github.com/crabby605/dospdf</a><br>
-      8086tiny by Adrian Cable (MIT) &middot; PDF technique from linuxpdf/doompdf by ading2210 (GPLv3) &middot; FreeDOS
-    </p>
-  </main>
+<div id="status" class="notice">
+Checking browser...
+</div>
 
-  <script>
-    (function () {
-      var ua = navigator.userAgent;
-      // Chromium-based engines (Chrome, Edge, Brave, Opera, ...) all carry "Chrome";
-      // Firefox and Safari do not. That's the engine that runs PDF JavaScript.
-      var chromium = /Chrome|Chromium|CriOS/.test(ua);
-      var banner = document.getElementById("banner");
-      var open = document.getElementById("open");
-      if (chromium) {
-        banner.className = "banner ok";
-        banner.innerHTML = "✓ Your browser is Chromium-based — it can run the PDF.";
-      } else {
-        banner.className = "banner bad";
-        banner.innerHTML = "⚠ This needs a <b>Chromium-based</b> browser (Chrome, Edge, Brave). " +
-          "Firefox and Safari render the page but won’t run the embedded emulator.";
-        open.className = "btn disabled";
-        open.textContent = "Open in Chrome to run";
-      }
-    })();
-  </script>
+<p>
+<a id="openBtn" class="button" href="/DOSPDF/out/DOS-in-a.pdf">Open PDF</a>
+<a class="button" href="https://github.com/crabby605/dospdf">Source</a>
+</p>
+
+<p>
+Give it a few seconds to boot. Try <code>dir</code>, <code>pong</code> or <code>alleycat</code>.
+</p>
+
+<hr>
+
+<p>
+Made by Vihaan P.
+</p>
+
+<script>
+(function () {
+    const ua = navigator.userAgent;
+    const chromium = /Chrome|Chromium|CriOS/.test(ua);
+
+    const status = document.getElementById("status");
+    const openBtn = document.getElementById("openBtn");
+
+    if (chromium) {
+        status.textContent = "Looks good. Your browser should be able to run the PDF.";
+    } else {
+        status.textContent =
+            "This only works in Chromium-based browsers (Chrome, Edge, Brave, etc) try switching.";
+        openBtn.style.opacity = "0.5";
+        openBtn.style.pointerEvents = "none";
+        openBtn.textContent = "Not chromium based";
+    }
+})();
+</script>
+
 </body>
 </html>
